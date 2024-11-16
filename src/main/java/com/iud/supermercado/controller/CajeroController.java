@@ -21,7 +21,8 @@ public class CajeroController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<Cajero>> obtenerTodosLosCajeros() {
+    public ResponseEntity<List<Cajero>> obtenerTodosLosCajeros() throws InterruptedException {
+        Thread.sleep(1000);
         return ResponseEntity.ok(cajeroService.getAllCajeros());
     }
 

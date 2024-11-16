@@ -21,7 +21,8 @@ public class ProductoController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<Producto>> obtenerTodosLosProductos() {
+    public ResponseEntity<List<Producto>> obtenerTodosLosProductos() throws InterruptedException {
+        Thread.sleep(1000);
         return ResponseEntity.ok(productoService.getAllProductos());
     }
 

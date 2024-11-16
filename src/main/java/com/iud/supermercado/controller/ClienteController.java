@@ -22,7 +22,8 @@ public class ClienteController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<Cliente>> obtenerTodosLosClientes() {
+    public ResponseEntity<List<Cliente>> obtenerTodosLosClientes() throws InterruptedException {
+        Thread.sleep(1000);
         return ResponseEntity.ok(clienteService.getAllClients());
     }
 
