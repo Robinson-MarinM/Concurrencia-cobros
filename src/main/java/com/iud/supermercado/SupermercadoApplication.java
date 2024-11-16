@@ -3,8 +3,10 @@ package com.iud.supermercado;
 import io.github.cdimascio.dotenv.Dotenv;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
+@ComponentScan(basePackages = "com.iud.supermercado")
 public class SupermercadoApplication {
 	private static final Dotenv dotenv = Dotenv.load();
 

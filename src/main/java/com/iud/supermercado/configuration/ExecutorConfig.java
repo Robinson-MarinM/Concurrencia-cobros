@@ -3,16 +3,20 @@ package com.iud.supermercado.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 @Configuration
 public class ExecutorConfig {
 
     @Bean
-    public Executor taskExecutor(){
-        return Executors.newFixedThreadPool(1);
+    public ThreadPoolTaskExecutor taskExecutor(){
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        executor.setCorePoolSize(1);
+        executor.setMaxPoolSize(1);
+        executor.setQueueCapacity(500);
+        executor.setThreadNamePrefix("taskExecutor-");
+        executor.initialize();
+        return executor;
     }
 
 }

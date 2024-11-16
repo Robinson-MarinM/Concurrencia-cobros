@@ -1,5 +1,7 @@
 package com.iud.supermercado.controller;
 
+import com.iud.supermercado.dto.GetVentaDto;
+import com.iud.supermercado.dto.VentaDto;
 import com.iud.supermercado.model.Cajero;
 import com.iud.supermercado.service.CajeroService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,4 +44,13 @@ public class CajeroController {
         return ResponseEntity.noContent().build();
     }
 
+    @PostMapping("/getventa")
+    public ResponseEntity<VentaDto> getVenta(@RequestBody GetVentaDto venta) {
+        return ResponseEntity.ok(cajeroService.getVenta(venta));
+    }
+
+    @PostMapping("/getventa2")
+    public ResponseEntity<VentaDto> getVenta2(@RequestBody GetVentaDto venta) {
+        return ResponseEntity.ok(cajeroService.getVenta2(venta));
+    }
 }
