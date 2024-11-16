@@ -38,4 +38,9 @@ public class ProductoService {
     public void deleteProducto(String code) {
         productoRepository.deleteById(code);
     }
+
+    public Producto getProductoByCodigo(String codigo) {
+        return productoRepository.findById(codigo)
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado con el codigo: " + codigo));
+    }
 }

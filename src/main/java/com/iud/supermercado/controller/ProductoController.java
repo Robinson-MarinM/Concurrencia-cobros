@@ -25,6 +25,11 @@ public class ProductoController {
         return ResponseEntity.ok(productoService.getAllProductos());
     }
 
+    @GetMapping("/{codigo}")
+    public ResponseEntity<Producto> obtenerProductoPorCodigo(@PathVariable String codigo) {
+        return ResponseEntity.ok(productoService.getProductoByCodigo(codigo));
+    }
+
     @PutMapping("/{codigo}")
     public ResponseEntity<Producto> actualizarProducto(@PathVariable String codigo, @RequestBody Producto productoDetails) {
         return ResponseEntity.ok(productoService.updateProducto(codigo, productoDetails));

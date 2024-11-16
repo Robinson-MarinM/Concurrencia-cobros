@@ -26,6 +26,11 @@ public class ClienteController {
         return ResponseEntity.ok(clienteService.getAllClients());
     }
 
+    @GetMapping("/{documento}")
+    public ResponseEntity<Cliente> obtenerClientePorDocumento(@PathVariable int documento) {
+        return ResponseEntity.ok(clienteService.getClientByDocument(documento));
+    }
+
     @PutMapping("/{documento}")
     public ResponseEntity<Cliente> actualizarCliente(@PathVariable int documento, @RequestBody Cliente clienteDetails) {
         return ResponseEntity.ok(clienteService.updateClient(documento, clienteDetails));

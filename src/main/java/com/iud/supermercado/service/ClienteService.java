@@ -32,4 +32,9 @@ public class ClienteService {
     public void deleteClient(int documento) {
         clienteRepository.deleteById(documento);
     }
+
+    public Cliente getClientByDocument(int documento) {
+        return clienteRepository.findById(documento)
+                .orElseThrow(() -> new RuntimeException("Cliente no encontrado con el documento: " + documento));
+    }
 }
