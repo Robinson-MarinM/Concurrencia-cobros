@@ -45,12 +45,14 @@ public class CajeroController {
     }
 
     @PostMapping("/getventa")
-    public ResponseEntity<VentaDto> getVenta(@RequestBody GetVentaDto venta) {
-        return ResponseEntity.ok(cajeroService.getVenta(venta));
+    public ResponseEntity<String> getVenta(@RequestBody GetVentaDto venta) {
+        cajeroService.getVenta(venta);
+        return ResponseEntity.ok("Venta realizada");
     }
 
     @PostMapping("/getventa2")
-    public ResponseEntity<VentaDto> getVenta2(@RequestBody GetVentaDto venta) {
-        return ResponseEntity.ok(cajeroService.getVenta2(venta));
+    public ResponseEntity<String> getVenta2(@RequestBody GetVentaDto venta) {
+        cajeroService.getVenta2(venta);
+        return ResponseEntity.ok("Venta realizada");
     }
 }

@@ -59,9 +59,50 @@ public class CajeroService {
         cajeroRepository.deleteById(id);
     }
 
-    public VentaDto getVenta(GetVentaDto venta) {
+    public void getVenta(GetVentaDto venta) {
+        Long time = System.currentTimeMillis();
         VentaDto ventaDto = new VentaDto();
-        //medir tiempo de ejecucion
+        executorConfig.taskExecutor().execute(
+                () -> {
+
+
+                    venta.getProductos().forEach(producto -> {
+                        ventaDto.getProductos()
+                                .add(productoService.getProductoByCodigo(producto));
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                    });
+                });
+                    executorConfig.taskExecutor().execute(
+                            () -> {
+                                ventaDto.setCliente(
+                                        clienteService.getClientByDocument(
+                                                venta.getDocumentoCliente()));
+                                try {
+                                    Thread.sleep(1000);
+                                } catch (InterruptedException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            });
+
+           executorConfig.taskExecutor().execute(
+                                        () -> {
+                                            ventaDto.setCajero(getCajeroById(venta.getIdCajero()));
+                                            try {
+                                                Thread.sleep(1000);
+                                                ventaDto.setTimeVenta("Tiempo de ejecucion: " + (System.currentTimeMillis() - time) + "ms");
+                                                System.out.println("Tiempo de ejecucion: " + (System.currentTimeMillis() - time) + "ms");
+                                            } catch (InterruptedException e) {
+                                                throw new RuntimeException(e);
+                                            }
+                                        });
+
+        System.out.println("Tiempo de ejecucion: " + (System.currentTimeMillis() - time) + "ms");
+        /*
+        VentaDto ventaDto = new VentaDto();
         Long time = System.currentTimeMillis();
         Callable<Void> tarea1 = () -> {
             venta.getProductos().forEach(producto -> {
@@ -112,29 +153,27 @@ public class CajeroService {
         ventaDto.setTimeVenta("Tiempo de ejecucion: " + (System.currentTimeMillis() - time) + "ms");
         System.out.println("Tiempo de ejecucion: " + (System.currentTimeMillis() - time) + "ms");
         return ventaDto;
+
+         */
     }
 
-    public VentaDto getVenta2(GetVentaDto venta) {
+    public void getVenta2(GetVentaDto venta) {
         VentaDto ventaDto = new VentaDto();
         long startTime = System.currentTimeMillis();
 
-        // Crea las instancias de las tareas de venta que son de tipo Runnable
         Venta tarea1 = new Venta(venta, productoService, clienteService, this, ventaDto);
 
         try {
-            // Ejecutar la tarea usando el TaskExecutor
             taskExecutor.execute(tarea1);
 
-            // Esperar la finalización del hilo actual o realizar otras tareas si es necesario
-            // Aquí no es necesario llamar a 'future.get()' porque 'Runnable' no devuelve resultados, solo ejecuta las tareas
+
         } catch (Exception e) {
             throw new RuntimeException("Error ejecutando las tareas", e);
         }
 
-        // Guardamos el tiempo de ejecución
         ventaDto.setTimeVenta("Tiempo de ejecución: " + (System.currentTimeMillis() - startTime) + "ms");
 
-        return ventaDto;
+
     }
 }
 
