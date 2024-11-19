@@ -62,99 +62,39 @@ public class CajeroService {
     public void getVenta(GetVentaDto venta) {
         Long time = System.currentTimeMillis();
         VentaDto ventaDto = new VentaDto();
-        executorConfig.taskExecutor().execute(
-                () -> {
 
-
-                    venta.getProductos().forEach(producto -> {
-                        ventaDto.getProductos()
-                                .add(productoService.getProductoByCodigo(producto));
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            throw new RuntimeException(e);
-                        }
-                    });
-                });
-                    executorConfig.taskExecutor().execute(
-                            () -> {
-                                ventaDto.setCliente(
-                                        clienteService.getClientByDocument(
-                                                venta.getDocumentoCliente()));
-                                try {
-                                    Thread.sleep(1000);
-                                } catch (InterruptedException e) {
-                                    throw new RuntimeException(e);
-                                }
-                            });
-
-           executorConfig.taskExecutor().execute(
-                                        () -> {
-                                            ventaDto.setCajero(getCajeroById(venta.getIdCajero()));
-                                            try {
-                                                Thread.sleep(1000);
-                                                ventaDto.setTimeVenta("Tiempo de ejecucion: " + (System.currentTimeMillis() - time) + "ms");
-                                                System.out.println("Tiempo de ejecucion: " + (System.currentTimeMillis() - time) + "ms");
-                                            } catch (InterruptedException e) {
-                                                throw new RuntimeException(e);
-                                            }
-                                        });
-
-        System.out.println("Tiempo de ejecucion: " + (System.currentTimeMillis() - time) + "ms");
-        /*
-        VentaDto ventaDto = new VentaDto();
-        Long time = System.currentTimeMillis();
-        Callable<Void> tarea1 = () -> {
-            venta.getProductos().forEach(producto -> {
-                ventaDto.getProductos()
-                        .add(productoService.getProductoByCodigo(producto));
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-
+        venta.getProductos().forEach(producto -> {
+            ventaDto.getProductos()
+                    .add(productoService.getProductoByCodigo(producto));
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         });
-        return null;
-        };
-        Callable<Void> tarea2 = () -> {
-            ventaDto.setCliente(
-                    clienteService.getClientByDocument(
-                            venta.getDocumentoCliente()));
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        return null;
-        };
-        Callable<Void> tarea3 = () -> {
-            ventaDto.setCajero(getCajeroById(venta.getIdCajero()));
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
 
-        return null;
-        };
-
+        ventaDto.setCliente(
+                clienteService.getClientByDocument(
+                        Integer.parseInt(venta.getDocumentoCliente())));
         try {
-            Future<Void> future1 = executorConfig.taskExecutor().submit(tarea1);
-            Future<Void> future2 = executorConfig.taskExecutor().submit(tarea2);
-            Future<Void> future3 = executorConfig.taskExecutor().submit(tarea3);
-
-            future1.get();
-            future2.get();
-            future3.get();
-        } catch (Exception e) {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        ventaDto.setTimeVenta("Tiempo de ejecucion: " + (System.currentTimeMillis() - time) + "ms");
-        System.out.println("Tiempo de ejecucion: " + (System.currentTimeMillis() - time) + "ms");
-        return ventaDto;
 
-         */
+
+
+        ventaDto.setCajero(getCajeroById(Integer.parseInt(venta.getIdCajero())));
+        try {
+            Thread.sleep(1000);
+            ventaDto.setTimeVenta("Tiempo de ejecucion: " + (System.currentTimeMillis() - time) + "ms");
+            System.out.println("Tiempo de ejecucion: " + (System.currentTimeMillis() - time) + "ms");
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+
+        System.out.println("Tiempo de ejecucion: " + (System.currentTimeMillis() - time) + "ms");
     }
 
     public void getVenta2(GetVentaDto venta) {

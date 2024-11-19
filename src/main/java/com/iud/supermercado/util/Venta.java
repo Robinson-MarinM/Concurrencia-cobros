@@ -42,7 +42,7 @@ public class Venta implements Runnable {
         });
 
 
-        Cliente cliente = clienteService.getClientByDocument(ventaDto.getDocumentoCliente());
+        Cliente cliente = clienteService.getClientByDocument(Integer.parseInt(ventaDto.getDocumentoCliente()));
         resultVentaDto.setCliente(cliente);
         try {
             Thread.sleep(1000);
@@ -52,7 +52,7 @@ public class Venta implements Runnable {
         }
 
 
-        Cajero cajero = cajeroService.getCajeroById(ventaDto.getIdCajero());
+        Cajero cajero = cajeroService.getCajeroById(Integer.parseInt(ventaDto.getIdCajero()));
         resultVentaDto.setCajero(cajero);
         try {
             Thread.sleep(1000);

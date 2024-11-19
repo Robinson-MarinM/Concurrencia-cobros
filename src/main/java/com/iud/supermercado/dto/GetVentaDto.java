@@ -10,7 +10,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GetVentaDto {
-    private int idCajero;
-    private int documentoCliente;
+    private String idCajero;
+    private String documentoCliente;
     private List<String> productos;
 }
